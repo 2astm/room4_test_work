@@ -1,4 +1,5 @@
 const express = require('express')
+const helmet = require('helmet')
 const config = require('./config/config')
 const db = require('./models/index')
 const {graphqlHTTP} = require('express-graphql')
@@ -6,6 +7,8 @@ const buildSchema = require('./graphql/schemas')
 const resolvers = require('./graphql/resolvers')
 
 const app = express()
+
+app.use(helmet())
 
 app.use(graphqlHTTP({
         schema: buildSchema,
