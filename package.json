@@ -1,0 +1,27 @@
+{
+  "name": "room4_test_work",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon --legacy-watch --inspect=0.0.0.0 index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@graphql-tools/load-files": "^6.2.6",
+    "@graphql-tools/schema": "^7.1.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.5.0",
+    "pg": "^8.5.1",
+    "sequelize": "^6.5.0",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "@graphql-tools/merge": "^6.2.10",
+    "nodemon": "^2.0.7"
+  }
+}

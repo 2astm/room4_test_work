@@ -1,0 +1,20 @@
+info:
+  title: "Room4"
+  description: "Room 4 test work"
+  version: "0.1"
+swagger: "2.0"
+paths:
+  /users:
+    get:
+      responses:
+        200:
+          description: "Successful operation"
+      description: "Returns users"
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+    xml:
+      name: "user"

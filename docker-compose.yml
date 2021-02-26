@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: asd
+    env_file:
+      - .env
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    restart: always
+  nodejs:
+    build:
+      context: .
+    container_name: nodejs
+    env_file:
+      - .env
+    depends_on:
+      - db
+    entrypoint: [ "./wait_for_it.sh", "-t", "60", "db:5432", "--", "npm", "run", "dev" ]
+    ports:
+      - '5000:5000'
+    volumes:
+    - ./:/usr/src/app
