@@ -1,19 +1,28 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const bCrypt = require('bcrypt')
 
-const User = sequelize.define('User', {
-    // Model attributes are defined here
-    firstName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    lastName: {
-        type: DataTypes.STRING
-        // allowNull defaults to true
+function cryptText(text, saltRounds){
+    return bCrypt.hash(text, saltRounds)
+}
+
+module.exports = (sequelize, DataTypes) => {
+    const saltRounds = 10
+
+    const model = {
+        name: DataTypes.STRING,
+        login: {type: DataTypes.STRING, unique: true},
+        password: DataTypes.STRING
     }
-}, {
-    // Other model options go here
-});
 
-// `sequelize.define` also returns the model
-console.log(User === sequelize.models.User); // true
+    const user = sequelize.define('USER', model)
+
+    user.beforeCreate(async (user) => {
+        user.password = await cryptText(user.password, saltRounds)
+    })
+
+    user.beforeBulkUpdate(async (user) => {
+        if (user.password != null)
+            user.password = await cryptText(user.password, saltRounds)
+    })
+
+    return user
+}
