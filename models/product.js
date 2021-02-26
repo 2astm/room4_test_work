@@ -1,4 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
+
+    const classMethods = {
+        associate: models => {
+            models.product.hasOne(models.category)
+        }
+    }
+
     const model = {
         name: DataTypes.STRING,
         description: DataTypes.STRING,
@@ -6,5 +13,5 @@ module.exports = (sequelize, DataTypes) => {
         count: DataTypes.INTEGER
     }
 
-    return sequelize.define('PRODUCT', model)
+    return sequelize.define('product', model, {classMethods})
 }

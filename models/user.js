@@ -1,11 +1,16 @@
 const bCrypt = require('bcrypt')
 
-function cryptText(text, saltRounds){
+function cryptText(text, saltRounds) {
     return bCrypt.hash(text, saltRounds)
 }
 
 module.exports = (sequelize, DataTypes) => {
     const saltRounds = 10
+
+    const checkPassword = (passwordToCheck) => {
+        console.log('checkPassword')
+        return false//bCrypt.compare(passwordToCheck, this.password)
+    }
 
     const model = {
         name: DataTypes.STRING,
@@ -13,15 +18,15 @@ module.exports = (sequelize, DataTypes) => {
         password: DataTypes.STRING
     }
 
-    const user = sequelize.define('USER', model)
+    const user = sequelize.define('user', model)
 
-    user.beforeCreate(async (user) => {
-        user.password = await cryptText(user.password, saltRounds)
+    user.beforeCreate(async (newUser) => {
+        newUser.password = await bCrypt.hash(newUser.password, saltRounds)
     })
 
-    user.beforeBulkUpdate(async (user) => {
-        if (user.password != null)
-            user.password = await cryptText(user.password, saltRounds)
+    user.beforeBulkUpdate(async (newUser) => {
+        if (newUser.password != null)
+            newUser.password = await cryptText(newUser.password, saltRounds)
     })
 
     return user

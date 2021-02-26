@@ -6,21 +6,28 @@ const categorySchema = require('./schemas/category')
 module.exports = buildSchema(`
     ${userSchema.User}
     ${userSchema.UserInputData}
+    ${userSchema.UserTokenData}
    
     ${productSchema.Product}
     ${productSchema.ProductInputData}
     
     ${categorySchema.Category}
     
-    type Query {
+    type RootQuery  {
         ${userSchema.UserQueries}
         ${productSchema.ProductQueries}
         ${categorySchema.CategoryQueries}
     }
     
-    type Mutable {
+    type RootMutation  {
         ${userSchema.UserMutable}
         ${productSchema.ProductMutable}
         ${categorySchema.CategoryMutable}
     }
+    
+    schema {
+        query: RootQuery
+        mutation: RootMutation
+    }
+
 `)

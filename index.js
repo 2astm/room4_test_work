@@ -8,15 +8,18 @@ const resolvers = require('./graphql/resolvers')
 
 const app = express()
 
-app.use(helmet())
 
-app.use(graphqlHTTP({
+app.use('/graphql/', graphqlHTTP({
         schema: buildSchema,
         rootValue: resolvers,
         graphiql: true
 }))
 
 app.disable('x-powered-by')
-app.listen(config.port, () => {
-    console.log(`Server is running on port: ${config.port}`)
-})
+db.sequelize.sync().then((value => {
+    console.log(value)
+    app.listen(config.port, () => {
+        console.log(`Server is running on port: ${config.port}`)
+    })
+}))
+

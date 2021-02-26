@@ -3,13 +3,13 @@ module.exports = {
     getCategories: () => {
         return [debugCategory]
     },
-    create4Category: ({name}) => {
+    createCategory: ({name}) => {
         return debugCategory
     },
     updateCategory: ({_id, name}) => {
         return debugCategory
     },
-    deleteUser: (_id) => {
+    deleteCategory: (_id) => {
         return false
     }
 }

@@ -8,14 +8,20 @@ type User{
 `
 exports.UserInputData = `
 input UserInputData{
-    name: String
+    name: String = ""
     login: String!
     password: String!
 }
 `
 
+exports.UserTokenData = `
+type UserTokenData{
+    token: String!
+    expiredIn: Int!
+}`
+
 exports.UserQueries = `
-    login(login: String!, password: String!): String!
+    login(login: String!, password: String!): UserTokenData!
 `
 
 exports.UserMutable = `
