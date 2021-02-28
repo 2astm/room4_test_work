@@ -5,7 +5,7 @@ const db = require('./models/index')
 const {graphqlHTTP} = require('express-graphql')
 const makeExecutableSchema = require('./graphql/schemas')
 const resolvers = require('./graphql/resolvers')
-
+const errorHandler = require('./graphql/errorHandler')
 const app = express()
 
 
@@ -13,6 +13,7 @@ app.use('/graphql/', graphqlHTTP({
     schema: makeExecutableSchema,
     rootValue: resolvers,
     graphiql: true,
+    customFormatErrorFn: errorHandler
 }))
 
 app.disable('x-powered-by')

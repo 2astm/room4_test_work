@@ -10,9 +10,9 @@ type Product{
 `
 exports.ProductInputData = `
 input ProductInputData{
-    name: String
-    description: String
-    cost: Float    
+    name: String @constraint(pattern: "^[A-Zaz 0-9\']{4,30}$")
+    description: String @constraint(maxLength: 1000)
+    cost: Float  
     count: Int
     categoryId: ID!
 }

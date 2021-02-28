@@ -1,33 +1,38 @@
 
 exports.User = `
+# Type that describes User
 type User{
     _id: ID!
-    name: String 
+    name: String
     login: String!
-    password: String!
 }
 `
 exports.UserInputData = `
-input UserInputData{
-    name: String = "" @constraint(contains: "foo")
-    login: String!
-    password: String!
+input UserCreateData{
+    name: String @constraint(pattern: "^[A-Za-z]{2,15}$")
+    login: String! @constraint(pattern: "^[A-Za-z0-9]{4,16}$")
+    password: String! @constraint(pattern: "^[A-Za-z0-9#$]{8,16}$")
+}
+input UserUpdateData{
+    name: String @constraint(pattern: "^[A-Za-z]{2,15}$")
+    login: String @constraint(pattern: "^[A-Za-z0-9]{4,16}$")
+    password: String @constraint(pattern: "^[A-Za-z0-9#$]{8,16}$")
 }
 `
 
 exports.UserTokenData = `
 type UserTokenData{
     token: String! 
-    expiredIn: Int!
+    expiredIn: String!
 }`
 
 exports.UserQueries = `
-    login(login: String!, password: String!): UserTokenData!
+    login(userInput: UserCreateData!): UserTokenData!
 `
 
 exports.UserMutable = `
-    createUser(userInput: UserInputData!): User!
-    updateUser(userInput: UserInputData!): User!
+    createUser(userInput: UserCreateData!): User    
+    updateUser(userInput: UserUpdateData!): User
     deleteUser: Boolean
     
 `

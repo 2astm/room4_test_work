@@ -7,11 +7,6 @@ function cryptText(text, saltRounds) {
 module.exports = (sequelize, DataTypes) => {
     const saltRounds = 10
 
-    const checkPassword = (passwordToCheck) => {
-        console.log('checkPassword')
-        return false//bCrypt.compare(passwordToCheck, this.password)
-    }
-
     const model = {
         id: {
             type: DataTypes.INTEGER,
@@ -34,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         if (newUser.password != null)
             newUser.password = await cryptText(newUser.password, saltRounds)
     })
+
+    user.prototype.checkPassword = function (password) {
+        return bCrypt.compare(password, this.password)
+    }
 
     return user
 }

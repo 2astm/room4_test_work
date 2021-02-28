@@ -1,7 +1,7 @@
 exports.Category = `
 type Category{
     _id: ID!
-    name: String!
+    name: String! @constraint(pattern: "^[A-Za-z 0-9]{3,20}$")
 }
 `
 

@@ -10,8 +10,7 @@ const sequelize = new Sequelize(config.database.database,
     config.database.password,
     {
         host: config.database.host,
-        dialect: 'postgres',
-        sync: {force: true}
+        dialect: 'postgres'
     })
 
 fs
