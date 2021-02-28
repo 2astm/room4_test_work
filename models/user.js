@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     const model = {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            allowNull: false,
+            autoIncrement: true
+        },
         name: DataTypes.STRING,
         login: {type: DataTypes.STRING, unique: true},
         password: DataTypes.STRING

@@ -10,7 +10,9 @@ const sequelize = new Sequelize(config.database.database,
     config.database.password,
     {
         host: config.database.host,
-        dialect: 'postgres'})
+        dialect: 'postgres',
+        sync: {force: true}
+    })
 
 fs
     .readdirSync(__dirname)

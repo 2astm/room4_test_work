@@ -1,13 +1,17 @@
 module.exports = (sequelize, DataTypes) => {
-    const classMethods = {
-        associate: models => {
-            models.category.hasMany(models.product)
-        }
-    }
 
-    const category = {
-        nam2e: DataTypes.STRING
-    }
+    const category = sequelize.define('category', {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            allowNull: false,
+            autoIncrement: true
+        },
+        name: DataTypes.STRING
+    })
 
-    return sequelize.define('category', category, {classMethods})
+    category.associate = (models) => {
+        models.category.hasMany(models.product)
+    }
+    return category
 }

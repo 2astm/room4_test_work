@@ -19,7 +19,7 @@ module.exports = {
             console.log(`User created: ${user.login}`)
             return user
         }catch (e) {
-            console.error(e.errors[0].message)
+            console.log(e)
             if (e.errors[0].message === 'login must be unique')
                 throw new Error('User already exist, try another login')
             else

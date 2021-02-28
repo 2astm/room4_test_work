@@ -1,14 +1,15 @@
+
 exports.User = `
 type User{
     _id: ID!
-    name: String
+    name: String 
     login: String!
     password: String!
 }
 `
 exports.UserInputData = `
 input UserInputData{
-    name: String = ""
+    name: String = "" @constraint(contains: "foo")
     login: String!
     password: String!
 }
@@ -16,7 +17,7 @@ input UserInputData{
 
 exports.UserTokenData = `
 type UserTokenData{
-    token: String!
+    token: String! 
     expiredIn: Int!
 }`
 
@@ -28,4 +29,5 @@ exports.UserMutable = `
     createUser(userInput: UserInputData!): User!
     updateUser(userInput: UserInputData!): User!
     deleteUser: Boolean
+    
 `
