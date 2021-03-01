@@ -15,13 +15,11 @@ module.exports = {
     },
     createUser: async (name, login, password) => {
         try {
-            const user = await models.user.create({
+            return await models.user.create({
                 name: name,
                 login: login,
                 password: password
             })
-            console.log(`User created: ${user.login}`)
-            return user
         } catch (e) {
             console.log(e)
             if (e.errors[0].message === 'login must be unique')
@@ -30,10 +28,20 @@ module.exports = {
                 throw new Error('ERR_CREATE_USER')
         }
     },
-    updateUser: ({name, login, password}) => {
-        return null
+    updateUser: async (args, userRequested) => {
+        const user = await models.user.findByPk(userRequested.id)
+        Object.keys(args).forEach((arg) => {
+            user[arg] = args[arg]
+        })
+        user.save()
+        return user
     },
-    deleteUser: () => {
-        return false
+    deleteUser: async (userRequested) => {
+        const res = await models.user.destroy({
+            where: {
+                id: userRequested.id
+            }
+        })
+        return res>0
     }
 }

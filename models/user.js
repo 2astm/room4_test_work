@@ -30,6 +30,11 @@ module.exports = (sequelize, DataTypes) => {
             newUser.password = await cryptText(newUser.password, saltRounds)
     })
 
+    user.beforeUpdate(async (newUser) => {
+        if (newUser.password != null)
+            newUser.password = await cryptText(newUser.password, saltRounds)
+    })
+
     user.prototype.checkPassword = function (password) {
         return bCrypt.compare(password, this.password)
     }

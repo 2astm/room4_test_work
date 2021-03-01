@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     category.associate = (models) => {
-        models.category.hasMany(models.product)
+        models.category.hasMany(models.product, {onDelete: 'cascade'})
     }
+
     return category
 }

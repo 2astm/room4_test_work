@@ -13,6 +13,7 @@ schema = `
     ${productSchema.ProductInputData}
     
     ${categorySchema.Category}
+    ${categorySchema.CategoryInputData}
     
     type RootQuery  {
         ${userSchema.UserQueries}
@@ -20,6 +21,7 @@ schema = `
         ${categorySchema.CategoryQueries}
     }
     
+    "Edit data queries"
     type RootMutation  {
         ${userSchema.UserMutable}
         ${productSchema.ProductMutable}

@@ -4,17 +4,42 @@ info:
   version: "0.1"
 swagger: "2.0"
 paths:
-  /users:
-    get:
+  /mutation/createUser:
+    post:
+      summary: Creates a user
+      parameters:
+        - in: "body"
+          name: "userInput"
+          required: true
+          schema:
+            $ref: "#definitions/UserCreateData"
       responses:
         200:
-          description: "Successful operation"
-      description: "Returns users"
+          description: "successfully operation"
+  /graphql:
+    post:
+      summary: Creates a user
+      parameters:
+        - in: "body"
+          name: "userInput"
+          required: true
+          schema:
+            $ref: "#definitions/UserCreateData"
+      responses:
+        200:
+          description: "successfully operation"
 definitions:
-  User:
+  UserCreateData:
     type: object
     properties:
       id:
         type: integer
-    xml:
-      name: "user"
+      name:
+        type: string
+      login:
+        type: string
+      password:
+        type: string
+    required:
+      - login
+      - password

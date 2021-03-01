@@ -1,15 +1,24 @@
-const debugProduct = {_id: 4, name: 'product1', description: 'empty description', cost: 1.2, categoryId: 4}
+const productService = require('../../services/product')
 module.exports = {
-    getProducts: () => {
-        return [debugProduct]
+    getProducts: (args, req) => {
+        if (!req.authorized)
+            throw new Error('UNAUTHORIZED')
+        return productService.getProducts()
     },
-    createProduct: ({name, description, cost, count, categoryId}) => {
-        return debugProduct
+    createProduct: async (args, req) => {
+        if (!req.authorized)
+            throw new Error('UNAUTHORIZED')
+        const {name, description, cost, count, categoryId} = args.productInput
+        return await productService.createProduct(name, description, cost, count, categoryId)
     },
-    updateProduct: ({name, description, cost, count, categoryId}) => {
-        return debugProduct
+    updateProduct: async (args, req) => {
+        if (!req.authorized)
+            throw new Error('UNAUTHORIZED')
+        return await productService.updateProduct(args.productInput)
     },
-    deleteProduct: ({id}) => {
-        return false
+    deleteProduct: async (args, req) => {
+        if (!req.authorized)
+            throw new Error('UNAUTHORIZED')
+        return await productService.deleteProduct(args.id)
     }
 }

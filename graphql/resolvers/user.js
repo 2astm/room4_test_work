@@ -1,4 +1,3 @@
-const debugUser = {_id: 4, name: 'user1', login: '123', password: ''}
 const userService = require('../../services/user')
 const jwt = require('jsonwebtoken')
 const config = require('../../config/config')
@@ -21,13 +20,16 @@ module.exports = {
         return user
     },
 
-    updateUser: ({name, login, password}, req) => {
+    updateUser: (args, req) => {
         if (!req.authorized)
             throw new Error('UNAUTHORIZED')
-        return debugUser
+        return userService.updateUser(args.userInput, req.authorized)
     },
 
-    deleteUser: () => {
+    deleteUser: (args, req) => {
+        if (!req.authorized)
+            throw new Error('UNAUTHORIZED')
+        userService.deleteUser(req.authorized)
         return false
     }
 }

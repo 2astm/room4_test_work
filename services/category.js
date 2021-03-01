@@ -1,17 +1,28 @@
+const models = require('../models')
 module.exports = {
-    getCategories: () => {
-        return null
+    getCategories: async () => {
+        return await models.category.findAll()
     },
 
-    createCategory: (name) => {
-        return null
+    createCategory: async (name) => {
+        return await models.category.create({
+            name: name
+        })
     },
 
-    updateCategory: (id, name) => {
-        return null
+    updateCategory: async (id, name) => {
+        const category = await models.category.findByPk(id)
+        category.name = name
+        category.save()
+        return category
     },
 
-    deleteCategory: (id) => {
-        return null
+    deleteCategory: async (id) => {
+        const res = await models.category.destroy({
+            where: {
+                id: id
+            }
+        })
+        return res>0
     }
 }

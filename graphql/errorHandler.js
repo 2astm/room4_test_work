@@ -9,8 +9,7 @@ module.exports = error => {
     if (error.message === 'LOGIN_UNSUCCESSFUL')
         return {message: 'Wrong login or password', statusCode: 'UNAUTHORIZED'}
 
-
-    if (error.message === 'UNAUTHORIZED')
+    if (error.message === 'UNAUTHORIZED' || error.message === 'jwt expired')
         return {message: 'Token expired or wrong', statusCode: 'UNAUTHORIZED'}
 
     if (error.message === 'ERR_CREATE_USER_DUPLICATED_LOGIN')
@@ -18,5 +17,10 @@ module.exports = error => {
 
     if (error.message === 'ERR_CREATE_USER')
         return {message: 'User can\'t be created', statusCode: 'NOT_CREATED'}
-    return error
+
+    if (error.message === 'PRODUCT_CANNOT_FIND')
+        return {message: 'Product can\'t be finded', statusCode: 'OBJECT_NOT_FOUND'}
+    if (error.message)
+        return {message: error.message, statusCode:'UNKNOWN_ERROR' }
+    return {message: 'Server can\'t process this request', statusCode: 'UNKNOWN_ERROR'}
 }
