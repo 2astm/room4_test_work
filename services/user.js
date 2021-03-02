@@ -3,7 +3,6 @@ module.exports = {
     login: async (login, password) => {
         try {
             const user = await models.user.findOne({where: {login: login}})
-            console.log(`user: ${user}`)
             const loggedIn = await user.checkPassword(password)
             if (loggedIn)
                 return user
@@ -14,19 +13,11 @@ module.exports = {
         }
     },
     createUser: async (name, login, password) => {
-        try {
-            return await models.user.create({
-                name: name,
-                login: login,
-                password: password
-            })
-        } catch (e) {
-            console.log(e)
-            if (e.errors[0].message === 'login must be unique')
-                throw new Error('ERR_CREATE_USER_DUPLICATED_LOGIN')
-            else
-                throw new Error('ERR_CREATE_USER')
-        }
+        return await models.user.create({
+            name: name,
+            login: login,
+            password: password
+        })
     },
     updateUser: async (args, userRequested) => {
         const user = await models.user.findByPk(userRequested.id)
@@ -42,6 +33,6 @@ module.exports = {
                 id: userRequested.id
             }
         })
-        return res>0
+        return res > 0
     }
 }

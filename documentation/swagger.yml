@@ -1,10 +1,10 @@
 info:
   title: "Room4"
-  description: "Room 4 test work"
+  description: "Room 4 test work, please open /graphql route for correct request creating"
   version: "0.1"
 swagger: "2.0"
 paths:
-  /mutation/createUser:
+  /graphql/mutation{createUser()}:
     post:
       summary: Creates a user
       parameters:
@@ -14,11 +14,48 @@ paths:
           schema:
             $ref: "#definitions/UserCreateData"
       responses:
-        200:
-          description: "successfully operation"
-  /graphql:
+        "200":
+          description: "Successfully operation"
+          schema:
+            $ref: "#definitions/User"
+  /graphql/mutation{updateUser()}:
     post:
-      summary: Creates a user
+      summary: Updates an authentificated user
+      parameters:
+        - in: "body"
+          name: "userInput"
+          required: true
+          schema:
+            $ref: "#definitions/UserUpdateData"
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        "200":
+          description: "Successfully operation"
+          schema:
+            $ref: "#definitions/User"
+  /graphql/mutation{deleteUser()}:
+    post:
+      summary: Delete authenitficated user
+      parameters:
+        - in: "query"
+          name: "id"
+          required: true
+          type: integer
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        "200":
+          description: "Successfully operation"
+          schema:
+            $ref: "#definitions/User"
+  /graphql/query{loginUser()}:
+    post:
+      summary: Returns token for logged in user
       parameters:
         - in: "body"
           name: "userInput"
@@ -28,8 +65,158 @@ paths:
       responses:
         200:
           description: "successfully operation"
+          schema:
+            $ref: "#definitions/UserTokenData"
+  /graphql/query{getProducts()}:
+    post:
+      summary: Returns all products
+      parameters:
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successfully operation"
+          schema:
+            type: array
+            items:
+              $ref: "#definitions/Product"
+  /graphql/mutation{createProduct()}:
+    post:
+      summary: Create new product
+      parameters:
+        - in: "body"
+          name: "productInput"
+          required: true
+          schema:
+            $ref: "#definitions/ProductCreateData"
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successfully operation"
+          schema:
+            $ref: "#definitions/Product"
+  /graphql/mutation{updateProduct()}:
+    post:
+      summary: Update product
+      parameters:
+        - in: "body"
+          name: "productInput"
+          required: true
+          schema:
+            $ref: "#definitions/ProductUpdateData"
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successfully operation"
+          schema:
+            $ref: "#definitions/Product"
+  /graphql/mutation{deleteProduct()}:
+    post:
+      summary: delete product
+      parameters:
+        - in: "query"
+          name: "id"
+          type: integer
+          required: true
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successfully operation"
+          schema:
+            type: boolean
+  /graphql/query{getCategories()}:
+    post:
+      summary: Returns all categories
+      parameters:
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successfully operation"
+          schema:
+            type: array
+            items:
+              $ref: "#definitions/Category"
+  /graphql/mutation{createCategory()}:
+    post:
+      summary: Create new category
+      parameters:
+        - in: "body"
+          name: "categoryInput"
+          required: true
+          schema:
+            $ref: "#definitions/CategoryCreateData"
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successfully operation"
+          schema:
+            $ref: "#definitions/Category"
+  /graphql/mutation{updateCategory()}:
+    post:
+      summary: Update category
+      parameters:
+        - in: "body"
+          name: "categoryInput"
+          required: true
+          schema:
+            $ref: "#definitions/CategoryUpdateData"
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successfully operation"
+          schema:
+            $ref: "#definitions/Category"
+  /graphql/mutation{deleteCategory()}:
+    post:
+      summary: delete product
+      parameters:
+        - in: "query"
+          name: "id"
+          type: integer
+          required: true
+        - in: "header"
+          name: "Authorization"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successfully operation"
+          schema:
+            type: boolean
 definitions:
   UserCreateData:
+    type: object
+    properties:
+      name:
+        type: string
+      login:
+        type: string
+      password:
+        type: string
+    required:
+      - login
+      - password
+  UserUpdateData:
     type: object
     properties:
       id:
@@ -41,5 +228,103 @@ definitions:
       password:
         type: string
     required:
-      - login
-      - password
+      - id
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      login:
+        type: string
+  UserTokenData:
+    type: object
+    properties:
+      token:
+        type: string
+      expiredIn:
+        type: string
+  ProductCreateData:
+    type: object
+    properties:
+      name:
+        pattern: "^[A-Za-z 0-9']{4,30}$"
+        type: string
+      description:
+        maxLength: 1000
+        type: string
+      price:
+        minimum: 0
+        type: number
+      count:
+        minimum: 0
+        type: integer
+      categoryId:
+        type: integer
+    required:
+      - name
+      - description
+      - categoryId
+  ProductUpdateData:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        pattern: "^[A-Za-z 0-9']{4,30}$"
+        type: string
+      description:
+        maxLength: 1000
+        type: string
+      price:
+        minimum: 0
+        type: number
+      count:
+        minimum: 0
+        type: integer
+      categoryId:
+        type: integer
+    required:
+      - id
+  Product:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      description:
+        type: string
+      price:
+        type: number
+      count:
+        type: integer
+      categoryId:
+        type: integer
+  CategoryCreateData:
+    type: object
+    properties:
+      name:
+        type: string
+        pattern: "^[A-Za-z0-9 ']{2,20}$"
+    required:
+      - name
+  CategoryUpdateData:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+        pattern: "^[A-Za-z0-9 ']{2,20}$"
+    required:
+      - id
+      - name
+  Category:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string

@@ -13,10 +13,8 @@ module.exports = {
     },
 
     createUser: async (args) => {
-        console.log(args.userInput)
         const {name, login, password} = args.userInput
         const user = await userService.createUser(name, login, password)
-        console.log(`${user.name}, ${user.login}, ${user.password}`)
         return user
     },
 

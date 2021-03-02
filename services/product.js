@@ -4,7 +4,6 @@ module.exports = {
         return await models.product.findAll()
     },
     createProduct: async (name, description, price, count, categoryId) => {
-        console.log(categoryId)
         return await models.product.create({
             name: name,
             description: description,
