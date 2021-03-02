@@ -26,7 +26,6 @@ module.exports = {
     deleteUser: (args, req) => {
         if (!req.authorized)
             throw new Error('UNAUTHORIZED')
-        console.log(userService.deleteUser(req.authorized));
-        return false
+        return userService.deleteUser(req.authorized)
     }
 }
