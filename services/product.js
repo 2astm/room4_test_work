@@ -1,10 +1,10 @@
 const models = require('../models')
 module.exports = {
-    getProducts: async () => {
-        return await models.product.findAll()
+    getProducts: () => {
+        return models.product.findAll()
     },
-    createProduct: async (name, description, price, count, categoryId) => {
-        return await models.product.create({
+    createProduct: (name, description, price, count, categoryId) => {
+        return models.product.create({
             name: name,
             description: description,
             price: price,
@@ -13,15 +13,12 @@ module.exports = {
         })
     },
     updateProduct: async (args) => {
-        const product = await models.product.findByPk(args.id)
-        if (product === null)
+        console.log(args);
+        const res = await models.product.update(args, {returning: true, where: {id: args.id}})
+        if (res[1] && res[0] === 1)
+            return res[1][0].dataValues
+        else
             throw new Error('PRODUCT_CANNOT_FIND')
-        Object.keys(args).forEach((arg) => {
-            if (arg !== 'id')
-                product[arg] = args[arg]
-        })
-        product.save()
-        return product
     },
     deleteProduct: async (id) => {
         const res = await models.product.destroy({

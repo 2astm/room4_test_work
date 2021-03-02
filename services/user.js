@@ -12,20 +12,19 @@ module.exports = {
             return false
         }
     },
-    createUser: async (name, login, password) => {
-        return await models.user.create({
+    createUser: (name, login, password) => {
+        return models.user.create({
             name: name,
             login: login,
             password: password
         })
     },
     updateUser: async (args, userRequested) => {
-        const user = await models.user.findByPk(userRequested.id)
-        Object.keys(args).forEach((arg) => {
-            user[arg] = args[arg]
-        })
-        user.save()
-        return user
+        const res = await models.user.update(args, {returning: true, where: {id: userRequested.id}})
+        if (res[1] && res[0] === 1)
+            return res[1][0].dataValues
+        else
+            throw new Error('USER_NOT_FOUND')
     },
     deleteUser: async (userRequested) => {
         const res = await models.user.destroy({

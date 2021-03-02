@@ -14,8 +14,7 @@ module.exports = {
 
     createUser: async (args) => {
         const {name, login, password} = args.userInput
-        const user = await userService.createUser(name, login, password)
-        return user
+        return await userService.createUser(name, login, password)
     },
 
     updateUser: (args, req) => {
@@ -27,7 +26,7 @@ module.exports = {
     deleteUser: (args, req) => {
         if (!req.authorized)
             throw new Error('UNAUTHORIZED')
-        userService.deleteUser(req.authorized)
+        console.log(userService.deleteUser(req.authorized));
         return false
     }
 }
