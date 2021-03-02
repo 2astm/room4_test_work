@@ -1,5 +1,4 @@
 const express = require('express')
-const helmet = require('helmet')
 const config = require('./config/config')
 const db = require('./models/index')
 const {graphqlHTTP} = require('express-graphql')
@@ -12,10 +11,9 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = YAML.load('./documentation/swagger.yml')
 const app = express()
 
-const options = {
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
     explorer: true
-}
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
+}))
 app.use(authMiddleware)
 
 app.use('/graphql/', graphqlHTTP({
