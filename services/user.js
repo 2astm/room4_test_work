@@ -19,17 +19,17 @@ module.exports = {
             password: password
         })
     },
-    updateUser: async (args, userRequested) => {
-        const res = await models.user.update(args, {returning: true, where: {id: userRequested.id}})
+    updateUser: async (args, userRequestedId) => {
+        const res = await models.user.update(args, {returning: true, where: {id: userRequestedId}})
         if (res[1] && res[0] === 1)
             return res[1][0].dataValues
         else
             throw new Error('USER_NOT_FOUND')
     },
-    deleteUser: async (userRequested) => {
+    deleteUser: async (userRequestedId) => {
         const res = await models.user.destroy({
             where: {
-                id: userRequested.id
+                id: userRequestedId
             }
         })
         return res > 0

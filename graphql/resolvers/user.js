@@ -8,7 +8,7 @@ module.exports = {
         const loggedIn = await userService.login(login, password)
         if (!loggedIn)
             throw new Error('LOGIN_UNSUCCESSFUL')
-        const token = jwt.sign({data: {user: loggedIn}}, config.secretKey, {expiresIn: '1h'})
+        const token = jwt.sign({data: {userId: loggedIn.id}}, config.secretKey, {expiresIn: '1h'})
         return {token: token, expiredIn: "1h"}
     },
 
